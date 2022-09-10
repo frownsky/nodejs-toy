@@ -19,13 +19,13 @@ MongoClient.connect(connectionURL, { useNewUrlParser: true }, (error, client) =>
     // })
     
     // Delete One
-    db.collection('tasks').deleteOne({
-        description: "Search Pen"
-    }).then((result)=>{
-        console.log(result)
-    }).catch((error)=>{
-        console.log(error)
-    })
+    // db.collection('tasks').deleteOne({
+    //     description: "Search Pen"
+    // }).then((result)=>{
+    //     console.log(result)
+    // }).catch((error)=>{
+    //     console.log(error)
+    // })
     
 })
 
