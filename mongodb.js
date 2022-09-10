@@ -9,40 +9,34 @@ MongoClient.connect(connectionURL, { useNewUrlParser: true }, (error, client) =>
     
     const db = client.db(databaseName)
 
-    // Search One by content or ID
-    // db.collection('users').findOne( { name: 'Alice', age: 28}, (error, user) =>{
-    //     if (error) { return console.log('Unable to fetch!') }  
-    //     console.log(user)
+    // Update One
+    // db.collection('users').updateOne({
+    //     _id: new ObjectId("631c43712fbb8748221f6342")
+    // }, {
+    //     // set age to 26
+    //     // $set: { age: 26 }
+
+    //     // increment age ( positive or negative )
+    //     $inc : { age: -1 }
+
+    // }).then((result) => {
+    //     console.log(result)
+    // }).catch( (error) => {
+    //     console.log(error)
     // })
-    // db.collection('users').findOne( { _id: ObjectId("631c4a379aff45918542379e") }, (error, user) =>{
-    //     if (error) { return console.log('Unable to fetch!') }  
-    //     console.log(user)
-    // })
-    
-    // Get users with age = 26
-    // db.collection('users').find({ age: 26 }).toArray((error, users) => {
-        //     console.log(users)
-        // })
-        
-    // Count users with age = 26
-    // db.collection('users').countDocuments({ age: 26 },(error, count) => {
-        //     console.log(count)
-    // })
-    
-    // Find users with age > 30
-    // db.collection('users').find({ age: { $gt: 30 } }).toArray((error,users) => {
-    //     console.log(users)
-    // })
-    
-    // Find users with age = {x : x is [27,30]}
-    // db.collection('users').find(
-    //     { $and: [
-    //         { age : {$gte: 27} },
-    //         { age : {$lte: 30} },
-    //     ] 
-    //     } )
-    // .toArray((error,users) => {
-    //     console.log(users)
+
+    // Update Many: Update status in all tasks to true
+    // db.collection('tasks').updateMany({
+    //     // find those tasks with false
+    //     completed: false
+    // }, {
+    //     // operations we want to perform for those found data
+    //     $set: { completed: true }
+    // }).then((result) => {
+    //     console.log(result)
+    // }).catch((error) => {
+    //     console.log(error)
+
     // })
 
 })
