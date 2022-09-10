@@ -3,7 +3,7 @@ const validator = require('validator')
 
 mongoose.connect('mongodb://127.0.0.1:27017/task-account-api')
 
-// With validation and sanitization
+// User and Task model with validation and sanitization
 const User = mongoose.model('User', {
     name: { 
         type: String, 
@@ -50,11 +50,12 @@ const Task = mongoose.model('Task', {
     }
 })
 
+
 // const me = new User({
 //     name: '    Michael  ',
 //     email: 'MICHAEL@mail.com     ',
 //     password: '  re23456   ',
-//     age: 20
+//     age: -1
 // })
 
 // me.save().then(()=>{
