@@ -2,22 +2,29 @@ const express = require('express')
 const User = require('../models/user')
 const router = express.Router()
 
-// public route
+// public route: the 'sign-up' route
 router.post('/', async (req, res)=>{
     const user = new User(req.body)
     try {
         await user.save()
-        res.status(200).send(user)
+        const token = await user.generateAuthToken()
+        res.status(201).send({ user, token })
     } catch (error) {
         res.status(400).send(error)
     }
 })
 
-// public route
+// public route: login generates and stores an auth token and sends it back to you
 router.post('/login', async (req, res) => {
     try {
         const user = await User.findByCredentials(req.body.email, req.body.password)
-        res.send(user)
+
+        // generate token and save it to database
+        const token = await user.generateAuthToken()
+        user.tokens = user.tokens.concat({ token })
+        await user.save()
+
+        res.send({user, token})
     } catch (error) {
         res.status(400).send()
     }
