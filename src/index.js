@@ -12,4 +12,17 @@ app.use("/tasks", taskRouter)
 
 app.listen(port, ()=>{ console.log('Server is up on port '+ port )} )
 
-const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
+
+const myFunction = async () => {
+    // after console log, get the middle code and go to base64decode.org
+    // we can expire the token after a certain amount of time
+    const token = jwt.sign({_id: 'abc123'},'thisismynewcode', { expiresIn : '1 sec'})
+    console.log(token)
+    
+    const data = jwt.verify(token,'thisismynewcode')
+    console.log(data)
+}
+
+myFunction()
+
