@@ -1,6 +1,7 @@
 const express = require('express')
 const User = require('../models/user')
 const router = express.Router()
+const auth = require('../middleware/authentication')
 
 // public route: the 'sign-up' route
 router.post('/', async (req, res)=>{
@@ -18,7 +19,6 @@ router.post('/', async (req, res)=>{
 router.post('/login', async (req, res) => {
     try {
         const user = await User.findByCredentials(req.body.email, req.body.password)
-
         // generate token and save it to database
         const token = await user.generateAuthToken()
         user.tokens = user.tokens.concat({ token })
@@ -30,14 +30,9 @@ router.post('/login', async (req, res) => {
     }
 })
 
-// protected route
-router.get('/',async (req, res) => {
-    try {
-        const users = await User.find({})
-        res.send(users)
-    } catch (error) {
-        res.status(500).send(error)
-    }
+// protected route: included auth middleware
+router.get('/me', auth, async (req, res) => {
+    res.send(req.user)
 })
 
 // protected route
