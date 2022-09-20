@@ -44,8 +44,13 @@ const userSchema = new mongoose.Schema( {
 
 })
 
-// Bunch of middlewares
+userSchema.virtual('tasks',{
+    ref: 'Task',
+    localField: '_id',
+    foreignField: 'owner'
+})
 
+// Bunch of middlewares
 // this runs without explicitly calling it
 userSchema.methods.toJSON = function() {
     const user = this
