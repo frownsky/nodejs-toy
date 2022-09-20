@@ -19,14 +19,35 @@ router.post('/', async (req, res)=>{
 router.post('/login', async (req, res) => {
     try {
         const user = await User.findByCredentials(req.body.email, req.body.password)
-        // generate token and save it to database
         const token = await user.generateAuthToken()
-        user.tokens = user.tokens.concat({ token })
-        await user.save()
-
-        res.send({user, token})
+        res.send({ user , token})
     } catch (error) {
         res.status(400).send()
+    }
+})
+
+// protected route: logout
+router.post('/logout', auth, async (req, res) => {
+    try {
+        // return the tokens not used for authentication, also remove the token used to login
+        req.user.tokens = req.user.tokens.filter((token) => {
+            return token.token !== req.token
+        })
+        await req.user.save()
+        res.send()
+    } catch (error) {
+        res.status(500).send()
+    }
+})
+
+// protected route: logout all devices
+router.post('/logoutAll', auth, async (req, res) => {
+    try {
+        req.user.tokens = []
+        await req.user.save()
+        res.send()
+    } catch (error) {
+        res.status(500).send()
     }
 })
 

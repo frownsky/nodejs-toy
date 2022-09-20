@@ -45,9 +45,26 @@ const userSchema = new mongoose.Schema( {
 })
 
 // Bunch of middlewares
+
+// this runs without explicitly calling it
+userSchema.methods.toJSON = function() {
+    const user = this
+    const userObject = user.toObject()
+
+    // remove this from response
+    delete userObject.password
+    delete userObject.tokens
+
+    return userObject
+}
+
 userSchema.methods.generateAuthToken = async function() {
     const user = this
     const token = jwt.sign({ _id: user._id.toString() },'thisismynewcode')
+
+    user.tokens = user.tokens.concat({ token })
+    await user.save()
+    
     return token
 }
 
